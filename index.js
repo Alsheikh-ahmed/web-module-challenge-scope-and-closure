@@ -53,43 +53,39 @@ function counter2() {
 
 
 /* Task 2: inning() 
-
 Write a function called `inning` that returns a random number of points that a team scored in an inning. This should be a whole number between 0 and 2. */
 
-function inning(/*Code Here*/){
-
-    /*Code Here*/
-
+function inning(){
+ return Math.floor(Math.random() * 3);
 }
+console.log(inning());
 
 /* Task 3: finalScore()
-
 Write a higher order function called `finalScore` that accepts the callback function `inning` (from above) and a number of innings and and returns the final score of the game in the form of an object.
-
 For example, 
-
 finalScore(inning, 9) might return: 
 {
   "Home": 11,
   "Away": 5,
 }
-
 */ 
 
-function finalScore(/*code Here*/){
-
-  /*Code Here*/
-
+function finalScore(func, numInnings){
+  let home = 0;
+  let away = 0;
+  for (let i = 0; i < numInnings - 1; i++) {
+    away = away + inning();
+    home = home + inning();
+  }
+  return {Away: away, Home: home};
 }
+console.log(finalScore(inning, 9));
 
 /* Task 4: 
-
 Create a function called `scoreboard` that accepts the following parameters: 
-
 (1) Callback function `getInningScore`
 (2) Callback function `inning`
 (3) A number of innings
-
 and returns the score at each pont in the game, like so:
 1st inning: awayTeam - homeTeam
 2nd inning: awayTeam - homeTeam
@@ -102,9 +98,17 @@ and returns the score at each pont in the game, like so:
 9th inning: awayTeam - homeTeam
 Final Score: awayTeam - homeTeam */
 
-
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function getInningScore(func) {
+  return {Away: func(), Home: func()}
+};
+function scoreboard(getInningScore, inning, numberInnings) {
+  let home = 0;
+  let away = 0;
+  for (let i = 0; i < numberInnings; i++) {
+    let score = getInningScore(inning);
+    home = home + score.Home;
+    away = away + score.Away;
+    console.log('inning number ' + i + ' Away Team:' + score.Away + ' Home Team: ' + score.Home);
+  }
+  console.log('Final Score - Home Team: ' + home + ' Away Team: ' + away);
 }
-
-
